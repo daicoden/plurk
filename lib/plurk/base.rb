@@ -182,7 +182,8 @@ module Plurk
       return data
     end
 
-    def get_plurks(uid=nil, date_from=Time.now, date_offset=Time.now, fetch_responses=false,options = {})
+    #Depricate with options instead of long param list?
+    def get_plurks(uid=nil, date_from=Time.now, date_offset=Time.now, fetch_responses=false)
       return false unless @logged_in
       uid ||= @uid
       params = {
@@ -192,6 +193,23 @@ module Plurk
         :fetch_responses => fetch_responses,
       }
       data = statuses(plurk_to_json(request("/TimeLine/getPlurks", :method => :post, :params => params )))
+      return data
+    end
+    #Proposed new git_plurks
+    # * Made uid manditory so that mistakes like plurk.get_plurks_new(:limit => 1) 
+    #   would not happen.
+    # * Also note that you would not need to be logged on to use get_plurks
+    #TODO:
+    # * Add the filtering for limit in the request
+    def get_plurks_new(uid,options = {})
+      options[:from_date]       ||= Time.now
+      options[:date_offset]     ||= Time.now
+      options[:fetch_responses] ||= false
+      
+      #replace the following with get_plurks body sans the first line
+      data = get_plurks(uid,options[:from_date],options[:date_offset],options[:fetch_responses])
+      #Since the coding style uses return follow it
+      data = data.first(options[:limit]) unless options[:limit].nil?
       return data
     end
 
