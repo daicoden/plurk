@@ -238,7 +238,7 @@ module Plurk
     end
     
     private
-    
+
       def statuses(doc)
         doc.inject([]) { |statuses, status| statuses << Status.new(status); statuses }
       end

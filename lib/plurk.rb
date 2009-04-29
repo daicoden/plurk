@@ -6,6 +6,7 @@ require 'plurk/base'
 require 'plurk/status'
 require 'plurk/user'
 require 'plurk/response'
+require 'plurk/class_methods'
 
 module Plurk
     class Unavailable < StandardError; end
