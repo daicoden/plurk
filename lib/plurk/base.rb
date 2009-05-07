@@ -202,15 +202,7 @@ module Plurk
     #TODO:
     # * Add the filtering for limit in the request
     def get_plurks_new(uid,options = {})
-      options[:from_date]       ||= Time.now
-      options[:date_offset]     ||= Time.now
-      options[:fetch_responses] ||= false
-      
-      #replace the following with get_plurks body sans the first line
-      data = get_plurks(uid,options[:from_date],options[:date_offset],options[:fetch_responses])
-      #Since the coding style uses return follow it
-      data = data.first(options[:limit]) unless options[:limit].nil?
-      return data
+      return Plurk.plurks_for(self, options)
     end
 
     def deny_friend(uid)
